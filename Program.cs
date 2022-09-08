@@ -31,9 +31,15 @@ namespace HeistP2
 
             rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
 
-
-
-
+            Bank bank = new Bank()
+            {
+                AlarmScore = new Random().Next(0, 101),
+                SecurityGuardScore = new Random().Next(0, 101),
+                VaultScore = new Random().Next(0, 101),
+                CashOnHand = new Random().Next(50000, 1000001)
+            };
+            
+            bank.LogRecon();
         }
 
         static IRobber CreateARobber()
@@ -73,6 +79,5 @@ namespace HeistP2
                 return CreateARobber();
             }
         }
-
     }
 }
