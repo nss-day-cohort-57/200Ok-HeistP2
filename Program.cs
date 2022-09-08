@@ -19,15 +19,33 @@ namespace HeistP2
             rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
 
 
-            rolodex.Add(CreateARobber());
+            while (true)
+            {
+                IRobber newRobber = CreateARobber();
+                if(newRobber == null)
+                {
+                    break;
+                }
+                rolodex.Add(newRobber);
+            }
+
             rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
+
+
+
+
         }
 
         static IRobber CreateARobber()
         {
-
             Console.Write("Create a new robber:");
             string robberName = Console.ReadLine();
+
+            if(robberName == "")
+            {
+                return null;
+            }
+
             var type = typeof(IRobber);
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany((s) => s.GetTypes()).Where((p) => type.IsAssignableFrom(p));
             Console.WriteLine($"Choose a specialty {string.Join(" ", types.Select((t) => t.Name)).Replace("IRobber ", "")}");
@@ -53,7 +71,6 @@ namespace HeistP2
             {
                 Console.WriteLine("Invalid Specialty, try again.");
                 return CreateARobber();
-
             }
         }
 
