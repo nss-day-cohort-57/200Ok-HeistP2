@@ -15,9 +15,17 @@ namespace HeistP2
                 new Hacker {Name = "Wilson", SkillLevel = 75, PercentageCut = 14},
                 new Muscle {Name = "Jim", SkillLevel = 50, PercentageCut = 10}
             };
-
-            rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
             Console.WriteLine($"There are {rolodex.Count} robbers in the database");
+            rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
+
+
+            rolodex.Add(CreateARobber());
+            rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
+        }
+
+        static IRobber CreateARobber()
+        {
+
             Console.Write("Create a new robber:");
             string robberName = Console.ReadLine();
             var type = typeof(IRobber);
@@ -29,12 +37,25 @@ namespace HeistP2
             Console.WriteLine("Enter the robber's percentage of the cut");
             int percentCut = int.Parse(Console.ReadLine());
 
+            if (specialty.ToLower() == "hacker")
+            {
+                return new Hacker { Name = robberName, SkillLevel = skill, PercentageCut = percentCut };
+            }
+            else if (specialty.ToLower() == "muscle")
+            {
+                return new Muscle { Name = robberName, SkillLevel = skill, PercentageCut = percentCut };
+            }
+            else if (specialty.ToLower() == "lockspecialist")
+            {
+                return new LockSpecialist { Name = robberName, SkillLevel = skill, PercentageCut = percentCut };
+            }
+            else
+            {
+                Console.WriteLine("Invalid Specialty, try again.");
+                return CreateARobber();
 
+            }
         }
 
-        static T CreateARobber<T>(string name, int skillLevel, int percentCut)
-        {
-
-        }
     }
 }
