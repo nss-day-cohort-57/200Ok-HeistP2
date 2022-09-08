@@ -16,20 +16,18 @@ namespace HeistP2
                 new Muscle {Name = "Jim", SkillLevel = 50, PercentageCut = 10}
             };
             Console.WriteLine($"There are {rolodex.Count} robbers in the database");
-            rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
 
 
             while (true)
             {
                 IRobber newRobber = CreateARobber();
-                if(newRobber == null)
+                if (newRobber == null)
                 {
                     break;
                 }
                 rolodex.Add(newRobber);
             }
 
-            rolodex.ForEach((p) => Console.WriteLine($"{p.Name} gets a {p.PercentageCut}% cut, and has a skill level of {p.SkillLevel}"));
 
             Bank bank = new Bank()
             {
@@ -38,8 +36,11 @@ namespace HeistP2
                 VaultScore = new Random().Next(0, 101),
                 CashOnHand = new Random().Next(50000, 1000001)
             };
-            
+
             bank.LogRecon();
+
+            rolodex.ForEach((p) => Console.WriteLine($"[{rolodex.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
+
         }
 
         static IRobber CreateARobber()
@@ -47,7 +48,7 @@ namespace HeistP2
             Console.Write("Create a new robber:");
             string robberName = Console.ReadLine();
 
-            if(robberName == "")
+            if (robberName == "")
             {
                 return null;
             }
