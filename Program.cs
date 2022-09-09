@@ -41,6 +41,23 @@ namespace HeistP2
 
             rolodex.ForEach((p) => Console.WriteLine($"[{rolodex.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
 
+            List<IRobber> crew = new List<IRobber>();
+            Console.WriteLine("Add robbers to your crew by their number");
+            while (true)
+            {
+                string index = Console.ReadLine();
+                if (index == "")
+                {
+                    break;
+                }
+                else if (int.Parse(index) > rolodex.Count || int.Parse(index) < rolodex.Count)
+                {
+                    Console.WriteLine($"Crew member [{index}] does not exist");
+                    continue;
+                }
+                crew.Add(rolodex[int.Parse(index)]);
+
+            }
         }
 
         static IRobber CreateARobber()
