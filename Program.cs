@@ -74,12 +74,16 @@ namespace HeistP2
                     break;
                 }
             }
-            
+
             crew.ForEach(c => c.PerformSkill(bank));
-            
-            if (bank.AlarmScore <= 0 && bank.SecurityGuardScore <=0 && bank.VaultScore <= 0)
+
+
+            if (bank.AlarmScore <= 0 && bank.SecurityGuardScore <= 0 && bank.VaultScore <= 0)
             {
                 Console.WriteLine("Well done, the bank security has been busted.");
+                crew.ForEach((c) => Console.WriteLine($"{c.Name} took home {(c.PercentageCut / 100m) * bank.CashOnHand} dollars."));
+                int totalPercentage = crew.Sum(p => p.PercentageCut);
+                Console.WriteLine($"You take home {((100 - totalPercentage) / 100m) * bank.CashOnHand} dollars.");
             }
             else
             {
