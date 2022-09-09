@@ -39,23 +39,45 @@ namespace HeistP2
 
             bank.LogRecon();
 
-            rolodex.ForEach((p) => Console.WriteLine($"[{rolodex.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
+
+            //rolodex.ForEach((p) => Console.WriteLine($"[{rolodex.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
+
 
             List<IRobber> crew = new List<IRobber>();
+
             Console.WriteLine("Add robbers to your crew by their number");
             while (true)
             {
+                int totalPercentage = crew.Sum(p => p.PercentageCut);
+                List<IRobber> rolodexLeft = rolodex.Where((x) => !crew.Contains(x) && x.PercentageCut + totalPercentage <= 100).ToList();
+
+                rolodexLeft.ForEach((p) =>
+                Console.WriteLine($"[{rolodexLeft.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
+
                 string index = Console.ReadLine();
                 if (index == "")
                 {
                     break;
                 }
-                else if (int.Parse(index) > rolodex.Count || int.Parse(index) < rolodex.Count)
+
+                if (int.Parse(index) > rolodexLeft.Count - 1 || int.Parse(index) < 0)
                 {
-                    Console.WriteLine($"Crew member [{index}] does not exist");
+                    Console.WriteLine($"Rolodex member [{index}] does not exist");
                     continue;
                 }
-                crew.Add(rolodex[int.Parse(index)]);
+
+                crew.Add(rolodexLeft[int.Parse(index)]);
+                Console.WriteLine("Rolodex Member Added");
+
+                totalPercentage = crew.Sum(p => p.PercentageCut);
+                Console.WriteLine($"{100 - totalPercentage}% Cut Left");
+
+                if (!(rolodexLeft.Count > 0))
+                {
+                    Console.WriteLine("Enjoy your crew!");
+                    break;
+                }
+
 
             }
         }
