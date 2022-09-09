@@ -39,10 +39,6 @@ namespace HeistP2
 
             bank.LogRecon();
 
-
-            //rolodex.ForEach((p) => Console.WriteLine($"[{rolodex.IndexOf(p)}]{p.Name} gets a {p.PercentageCut}% cut, specializes in being the {p.Specialty} and has a skill level of {p.SkillLevel}"));
-
-
             List<IRobber> crew = new List<IRobber>();
 
             Console.WriteLine("Add robbers to your crew by their number");
@@ -77,9 +73,19 @@ namespace HeistP2
                     Console.WriteLine("Enjoy your crew!");
                     break;
                 }
-
-
             }
+            
+            crew.ForEach(c => c.PerformSkill(bank));
+            
+            if (bank.AlarmScore <= 0 && bank.SecurityGuardScore <=0 && bank.VaultScore <= 0)
+            {
+                Console.WriteLine("Well done, the bank security has been busted.");
+            }
+            else
+            {
+                Console.WriteLine("The bank is still secure, you have failed. Go straight to jail, do not pass Go, do not collect $200.");
+            }
+
         }
 
         static IRobber CreateARobber()
